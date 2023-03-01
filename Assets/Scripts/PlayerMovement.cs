@@ -14,16 +14,15 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheck;
     public float groundDistance = 0.1f;
     public LayerMask groundMask; // checking if surface layer is ground
+    public LayerMask trampolineMask;
     public float groundStop = -0.1f;
 
     private Vector3 velocity;
     private bool isGrounded = false;
 
-
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -33,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
         float z = Input.GetAxis("Vertical");
 
         Vector3 move = transform.right * x + transform.forward * z;
-                
+
         controller.Move(Vector3.ClampMagnitude(move, 1f) * speed * Time.deltaTime);
 
         //Gravity
@@ -59,4 +58,5 @@ public class PlayerMovement : MonoBehaviour
 
         controller.Move(velocity);
     }
+
 }

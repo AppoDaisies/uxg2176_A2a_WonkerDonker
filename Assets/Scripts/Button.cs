@@ -7,6 +7,8 @@ public class Button : MonoBehaviour
     //display the UI text
     public GameObject txtToDisplay;
 
+    public List<GameObject> Enemies;
+
     //check if the player is in trigger
     private bool PlayerInZone;                  
 
@@ -16,14 +18,20 @@ public class Button : MonoBehaviour
     {
 
         PlayerInZone = false; //player not in zone                          
-        txtToDisplay.SetActive(false);
+        //txtToDisplay.SetActive(false);
     }
 
     private void Update()
     {
         if (PlayerInZone && Input.GetKeyDown(KeyCode.F)) //if in zone and press F key           
         {
-            lightorobj.SetActive(!lightorobj.activeSelf);
+            for(int i = 0; i < Enemies.Count; i++)
+            {
+                Enemies[i].SetActive(true);
+                Debug.Log("Testing" + i);
+            }  
+
+            //lightorobj.SetActive(!lightorobj.activeSelf);
             gameObject.GetComponent<AudioSource>().Play();
             gameObject.GetComponent<Animator>().Play("Switch");
         }
@@ -33,7 +41,7 @@ public class Button : MonoBehaviour
     {
         if (other.gameObject.tag == "Player") //if player in zone
         {
-            txtToDisplay.SetActive(true);
+            //txtToDisplay.SetActive(true);
             PlayerInZone = true;
         }
     }
@@ -44,7 +52,7 @@ public class Button : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             PlayerInZone = false;
-            txtToDisplay.SetActive(false);
+            //txtToDisplay.SetActive(false);
         }
     }
 }

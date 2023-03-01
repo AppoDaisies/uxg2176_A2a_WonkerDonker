@@ -34,4 +34,11 @@ public class MouseLook : MonoBehaviour
         //Horizontal Look
         playerBody.Rotate(Vector3.up, flipXRotation ? -mouseX : mouseX);
     }
+
+    public bool GetShootHitPos(out RaycastHit hit)
+    {
+        return Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit);
+    }
+
+
 }
