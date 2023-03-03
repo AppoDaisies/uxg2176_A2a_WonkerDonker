@@ -4260,7 +4260,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3935032195793511671, guid: 883d0afafc05d784ea5721b6885c465a, type: 3}
       propertyPath: m_Radius
-      value: 0.6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3935032195793511671, guid: 883d0afafc05d784ea5721b6885c465a, type: 3}
       propertyPath: m_Enabled
@@ -15116,7 +15116,7 @@ GameObject:
   - component: {fileID: 7141231614115205932}
   - component: {fileID: 4556840931851582947}
   - component: {fileID: 6436453172015634424}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: gym_set_sketchfab:mattress_thick
   m_TagString: Untagged
   m_Icon: {fileID: 0}

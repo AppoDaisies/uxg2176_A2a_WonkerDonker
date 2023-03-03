@@ -109,7 +109,7 @@ public class PlayerMovement : MonoBehaviour
         {
             StartCoroutine(cooldown(0.1f));
         }
-        if (col.gameObject.tag == "Trampoline" && isGrounded == false)
+        else if (col.gameObject.tag == "Trampoline" && isGrounded == false)
         {
             velocity.y = bounceForce;
         }
@@ -126,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator cooldown(float delay)
     {
         yield return new WaitForSeconds(delay);
-        FPSInput.enabled = !FPSInput.enabled;
+        //FPSInput.enabled = !FPSInput.enabled;
         inside = !inside;
     }
 
