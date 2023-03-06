@@ -6004,7 +6004,7 @@ GameObject:
   - component: {fileID: 875198350}
   - component: {fileID: 875198349}
   - component: {fileID: 875198351}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: gym_set_sketchfab:mattress_thick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
