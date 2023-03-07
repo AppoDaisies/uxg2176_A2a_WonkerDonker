@@ -41,7 +41,6 @@ public class PlayerMovement : MonoBehaviour
         if(inside == true)
         {
             Climb();
-            Debug.Log("testing");
         }
         else
         {
@@ -112,6 +111,12 @@ public class PlayerMovement : MonoBehaviour
         else if (col.gameObject.tag == "Trampoline" && isGrounded == false)
         {
             velocity.y = bounceForce;
+        }
+
+        if(col.gameObject.tag == "Platform")
+        {
+            Debug.Log("TestPlatform");
+            gameObject.transform.parent = col.gameObject.transform;
         }
     }
 
