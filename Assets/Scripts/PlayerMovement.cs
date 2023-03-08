@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             Movement();
-            Jump();
+
             //Gravity
             velocity.y += gravity * Time.deltaTime * Time.deltaTime;
 
@@ -57,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
                 velocity.y = groundStop;
             }
 
-           
+            Jump();
         }
         
     }
@@ -116,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
         if(col.gameObject.tag == "Platform")
         {
             Debug.Log("TestPlatform");
-           // gameObject.transform.parent = col.gameObject.transform;
+            gameObject.transform.parent = col.gameObject.transform;
         }
     }
 
