@@ -113,11 +113,11 @@ public class PlayerMovement : MonoBehaviour
             velocity.y = bounceForce;
         }
 
-        if(col.gameObject.tag == "Platform")
-        {
-            Debug.Log("TestPlatform");
-            gameObject.transform.parent = col.gameObject.transform;
-        }
+        //if(col.gameObject.tag == "Platform")
+        //{
+        //    Debug.Log("TestPlatform");
+        //    gameObject.transform.parent = col.gameObject.transform;
+        //}
     }
 
     void OnTriggerExit(Collider col)
