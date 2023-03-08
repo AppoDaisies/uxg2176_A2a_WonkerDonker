@@ -1,24 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class WeaponFire : MonoBehaviour
 {
-    public static WeaponFire instance;
-
     public float cooldown = 0.3f;
 
     private bool isFiring = false;
 
-    public int killCount;
-
-    public TextMeshProUGUI killsText;
-
     // Start is called before the first frame update
     void Start()
     {
-        instance = this;
+
     }
 
     // Update is called once per frame
@@ -28,7 +21,6 @@ public class WeaponFire : MonoBehaviour
         {
             StartCoroutine(FireWeapon());
         }
-        killsText.text = killCount.ToString();
     }
 
     private IEnumerator FireWeapon()
@@ -40,8 +32,6 @@ public class WeaponFire : MonoBehaviour
         {
             if (hit.collider.GetComponent<TargetScript>() != null)
             {
-                Debug.Log(killCount);
-                killCount++;
                 hit.collider.GetComponent<TargetScript>().DoHit();
             }
         }

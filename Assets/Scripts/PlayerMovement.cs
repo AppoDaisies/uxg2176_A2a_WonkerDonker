@@ -81,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
             if (isGrounded)
             {
                 //Cancel gravity so can jump
-                velocity.y = jumpHeight * Time.deltaTime;
+                velocity.y = jumpHeight;
             }
         }
 
