@@ -15,6 +15,8 @@ public class PlayerMovementTutorial : MonoBehaviour
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
+    public float dashCooldown = 10f;
+    public float dashSpeed;
     bool readyToJump;
 
     [HideInInspector] public float walkSpeed;
@@ -50,6 +52,8 @@ public class PlayerMovementTutorial : MonoBehaviour
 
     private void Update()
     {
+        dashCooldown -= Time.deltaTime;
+
         // ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
 
@@ -61,6 +65,8 @@ public class PlayerMovementTutorial : MonoBehaviour
             rb.drag = groundDrag;
         else
             rb.drag = 0;
+
+       
     }
 
     private void FixedUpdate()
@@ -99,6 +105,13 @@ public class PlayerMovementTutorial : MonoBehaviour
         // in air
         else if(!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+
+        if (Input.GetKey(KeyCode.LeftShift) && dashCooldown <= 0)
+        {
+            Debug.Log("Dashing");
+            rb.velocity = transform.forward * dashSpeed;
+            dashCooldown = .5f;
+        }
     }
 
     private void SpeedControl()
