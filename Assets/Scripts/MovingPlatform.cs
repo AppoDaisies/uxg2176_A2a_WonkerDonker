@@ -1,51 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour
 {
-    [SerializeField]
-    private WaypointPath _waypointPath;
+    public GameObject playerScale;
 
-    [SerializeField]
-    private float _speed;
-
-    private int _targetWaypointIndex;
-
-    private Transform _previousWaypoint;
-    private Transform _targetWaypoint;
-
-    private float _timeToWaypoint;
-    private float _elapsedTime;
-
-
-    // Update is called once per frame
-    void Start()
+    private void Start()
     {
-        TargetNextWaypoint();
     }
-    void Update()
+    private void OnTriggerStay(Collider other)
     {
-        _elapsedTime += Time.deltaTime;
-
-        float elapsedPercentage = _elapsedTime / _timeToWaypoint; 
-        transform.position = Vector3.Lerp(_previousWaypoint.position, _targetWaypoint.position, elapsedPercentage);
-
-        if (elapsedPercentage >= 1)
+        if (other.gameObject.name == "Player")
         {
-            TargetNextWaypoint();
+            
+            print("!");
+            other.gameObject.transform.parent = transform;
+
+            //Rigidbody playerRB = other.gameObject.GetComponent<Rigidbody>();
+            //playerRB.mass = 5;
         }
     }
 
-    private void TargetNextWaypoint()
+    private void OnTriggerExit(Collider other)
     {
-        _previousWaypoint = _waypointPath.GetWaypoint(_targetWaypointIndex);
-        _targetWaypointIndex = _waypointPath.GetNextWaypointIndex(_targetWaypointIndex);
-        _targetWaypoint = _waypointPath.GetWaypoint(_targetWaypointIndex);
-
-        _elapsedTime = 0;
-
-        float distanceToWaypoint = Vector3.Distance(_previousWaypoint.position, _targetWaypoint.position);
-        _timeToWaypoint = distanceToWaypoint * _speed; 
+        if (other.gameObject.name == "Player")
+        {
+            print("unparent");
+            other.gameObject.transform.parent = null;
+            //Rigidbody playerRB = other.gameObject.GetComponent<Rigidbody>();
+            //playerRB.mass = 1;
+        }
     }
 }

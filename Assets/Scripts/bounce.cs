@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class bounce : MonoBehaviour
 {
-    public float speed = 3f;
+    public float bounceForce;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,7 +23,7 @@ public class bounce : MonoBehaviour
         {
             print("BOUNCE");
             Rigidbody rbPlayer = col.gameObject.GetComponent<Rigidbody>();
-            rbPlayer.velocity = transform.up * speed;
+            rbPlayer.velocity = transform.up * bounceForce;
         }
     }
 }

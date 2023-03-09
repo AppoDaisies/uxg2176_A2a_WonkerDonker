@@ -12,13 +12,11 @@ public class Button : MonoBehaviour
     //check if the player is in trigger
     private bool PlayerInZone;                  
 
-    public GameObject lightorobj;
-
     private void Start()
     {
 
         PlayerInZone = false; //player not in zone                          
-        //txtToDisplay.SetActive(false);
+        txtToDisplay.SetActive(false);
     }
 
     private void Update()
@@ -29,6 +27,7 @@ public class Button : MonoBehaviour
             {
                 Enemies[i].SetActive(true);
                 Debug.Log("Testing" + i);
+                WeaponFire.instance.killCount = 0;
             }  
 
             //lightorobj.SetActive(!lightorobj.activeSelf);
@@ -41,7 +40,7 @@ public class Button : MonoBehaviour
     {
         if (other.gameObject.tag == "Player") //if player in zone
         {
-            //txtToDisplay.SetActive(true);
+            txtToDisplay.SetActive(true);
             PlayerInZone = true;
         }
     }
@@ -52,7 +51,7 @@ public class Button : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             PlayerInZone = false;
-            //txtToDisplay.SetActive(false);
+            txtToDisplay.SetActive(false);
         }
     }
 }

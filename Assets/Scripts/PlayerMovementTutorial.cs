@@ -5,6 +5,8 @@ using TMPro;
 
 public class PlayerMovementTutorial : MonoBehaviour
 {
+    public static PlayerMovementTutorial instance;
+
     [Header("Movement")]
     public float moveSpeed;
 
@@ -25,6 +27,7 @@ public class PlayerMovementTutorial : MonoBehaviour
     public float playerHeight;
     public LayerMask whatIsGround;
     bool grounded;
+    public bool onLadder = false;
 
     public Transform orientation;
 
@@ -39,6 +42,8 @@ public class PlayerMovementTutorial : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+
+        instance = this;
 
         readyToJump = true;
     }
@@ -60,7 +65,10 @@ public class PlayerMovementTutorial : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MovePlayer();
+        if (!onLadder)
+        {
+            MovePlayer();
+        }
     }
 
     private void MyInput()
