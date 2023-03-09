@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class PlayerMovementTutorial : MonoBehaviour
@@ -17,10 +18,22 @@ public class PlayerMovementTutorial : MonoBehaviour
     public float airMultiplier;
     public float dashCooldown = 10f;
     public float dashSpeed;
+
+    private float stamina = 5f;
+    private float maxStamina;
+    private float sprintSpeed;
+    private float initialSpeed;
+    private bool isSprinting;
+
+    public Slider staminaBar;
+
     bool readyToJump;
+    private int jumpsRemaining = 1;
+
+    bool haveStamina = true;
 
     [HideInInspector] public float walkSpeed;
-    [HideInInspector] public float sprintSpeed;
+
 
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
@@ -48,6 +61,12 @@ public class PlayerMovementTutorial : MonoBehaviour
         instance = this;
 
         readyToJump = true;
+
+        sprintSpeed = moveSpeed + 6;
+        initialSpeed = moveSpeed;
+
+        maxStamina = stamina;
+        staminaBar.maxValue = maxStamina;
     }
 
     private void Update()
@@ -66,7 +85,14 @@ public class PlayerMovementTutorial : MonoBehaviour
         else
             rb.drag = 0;
 
-       
+
+        StaminaBar();
+
+        if (!onLadder)
+        {
+            Sprint();
+        }
+        
     }
 
     private void FixedUpdate()
@@ -83,18 +109,25 @@ public class PlayerMovementTutorial : MonoBehaviour
         verticalInput = Input.GetAxisRaw("Vertical");
 
         // when to jump
-        if(Input.GetKey(jumpKey) && readyToJump && grounded)
+        if(Input.GetKey(jumpKey) && readyToJump && jumpsRemaining > 0) //&& grounded)
         {
             readyToJump = false;
-
+            jumpsRemaining -= 1;
             Jump();
+            Invoke("ResetJump", jumpCooldown);
 
-            Invoke(nameof(ResetJump), jumpCooldown);
+            Debug.Log("jumps remaining = " + jumpsRemaining);
+        }
+
+        if (grounded)
+        {
+            jumpsRemaining = 1;
         }
     }
 
     private void MovePlayer()
     {
+
         // calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
@@ -106,12 +139,53 @@ public class PlayerMovementTutorial : MonoBehaviour
         else if(!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
 
-        if (Input.GetKey(KeyCode.LeftShift) && dashCooldown <= 0)
+        if (Input.GetKey(KeyCode.E) && dashCooldown <= 0)
         {
             Debug.Log("Dashing");
             rb.velocity = transform.forward * dashSpeed;
             dashCooldown = .5f;
         }
+
+    }
+
+    private void Sprint()
+    {
+        if (Input.GetKey(KeyCode.LeftShift) && haveStamina && grounded)
+        {
+            moveSpeed = sprintSpeed; //set moveSpeed to Sprint speed
+            stamina -= Time.deltaTime; //Decrease stamina according to time.deltatime.
+            isSprinting = true;
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift) || !haveStamina || !grounded)
+        {
+            moveSpeed = initialSpeed; //set back to original speed which was set at Start()
+            isSprinting = false;
+        }
+    }
+
+    private void StaminaBar()
+    {
+        if (stamina < maxStamina && !isSprinting)
+        {
+            stamina += Time.deltaTime; //If stamina is less than 20 while not sprinting, slowly regenerate
+
+            if (stamina > maxStamina)
+            {
+                stamina = maxStamina; //caps stamina at 20.
+            }
+        }
+
+        if (stamina >= 0f)
+        {
+            haveStamina = true;
+        }
+        else
+        {
+            haveStamina = false;
+        }
+
+        staminaBar.value = stamina;
     }
 
     private void SpeedControl()
@@ -132,7 +206,9 @@ public class PlayerMovementTutorial : MonoBehaviour
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        
     }
+
     private void ResetJump()
     {
         readyToJump = true;
