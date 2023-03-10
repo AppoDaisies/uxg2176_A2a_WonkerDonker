@@ -16,7 +16,7 @@ public class PlayerMovementTutorial : MonoBehaviour
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
-    public float dashCooldown = 10f;
+    public float teleportCooldown;
     public float dashSpeed;
 
     private float stamina = 5f;
@@ -28,7 +28,7 @@ public class PlayerMovementTutorial : MonoBehaviour
     public Slider staminaBar;
 
     bool readyToJump;
-    private int jumpsRemaining = 1;
+    private int jumpsRemaining = 2;
 
     bool haveStamina = true;
 
@@ -71,7 +71,7 @@ public class PlayerMovementTutorial : MonoBehaviour
 
     private void Update()
     {
-        dashCooldown -= Time.deltaTime;
+        
 
         // ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.3f, whatIsGround);
@@ -91,8 +91,11 @@ public class PlayerMovementTutorial : MonoBehaviour
         if (!onLadder)
         {
             Sprint();
+            Teleport();
         }
+
         
+
     }
 
     private void FixedUpdate()
@@ -119,10 +122,10 @@ public class PlayerMovementTutorial : MonoBehaviour
             Debug.Log("jumps remaining = " + jumpsRemaining);
         }
 
-        if (grounded)
-        {
-            jumpsRemaining = 1;
-        }
+            if (grounded && readyToJump)
+            {
+                jumpsRemaining = 2;
+            }
     }
 
     private void MovePlayer()
@@ -139,12 +142,7 @@ public class PlayerMovementTutorial : MonoBehaviour
         else if(!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
 
-        if (Input.GetKey(KeyCode.E) && dashCooldown <= 0)
-        {
-            Debug.Log("Dashing");
-            rb.velocity = transform.forward * dashSpeed;
-            dashCooldown = .5f;
-        }
+        
 
     }
 
@@ -212,6 +210,21 @@ public class PlayerMovementTutorial : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true;
+    }
+
+
+    private void Teleport()
+    {
+        if (Input.GetKey(KeyCode.E) && teleportCooldown <= 0)
+        {
+            rb.velocity = transform.forward * dashSpeed;
+            teleportCooldown = 2f;
+        }
+
+        if(teleportCooldown >= 0)
+        {
+            teleportCooldown -= Time.deltaTime;
+        }
     }
 
 }
