@@ -18,6 +18,9 @@ public class TargetScript : MonoBehaviour
     public void DoHit(int dmg)
     {
         currentHP -= dmg;
+
+        Debug.Log("Target is hit for " + dmg + "Damage");
+
         Death();
     }
 
