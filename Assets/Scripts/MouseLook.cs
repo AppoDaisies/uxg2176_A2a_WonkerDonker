@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MouseLook : MonoBehaviour
 {
-    public float mouseSensitivity = 300f;
+    public float mouseSensitivity = 80f;
     public Transform playerBody;
 
     public bool flipXRotation = false;
@@ -23,6 +23,24 @@ public class MouseLook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(GameManager.instance.gameOver == false)
+        {
+            PlayerLook();
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+        }
+        
+    }
+
+    public bool GetShootHitPos(out RaycastHit hit)
+    {
+        return Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit);
+    }
+
+    public void PlayerLook()
+    {
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
@@ -34,11 +52,4 @@ public class MouseLook : MonoBehaviour
         //Horizontal Look
         playerBody.Rotate(Vector3.up, flipXRotation ? -mouseX : mouseX);
     }
-
-    public bool GetShootHitPos(out RaycastHit hit)
-    {
-        return Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit);
-    }
-
-
 }

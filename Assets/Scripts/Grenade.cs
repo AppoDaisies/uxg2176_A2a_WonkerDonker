@@ -9,6 +9,8 @@ public class Grenade : MonoBehaviour
     public float radius = 5f;
     public float force = 700f;
 
+    private int grenadeDmg;
+
     public GameObject explosionEffect; 
 
     float countdown; 
@@ -17,6 +19,8 @@ public class Grenade : MonoBehaviour
     void Start()
     {
         countdown = delay; //coundown = 3f sec before exploding
+        grenadeDmg = 100;
+
     }
 
     // Update is called once per frame
@@ -45,6 +49,9 @@ public class Grenade : MonoBehaviour
             if (rb != null)
             {
                 rb.AddExplosionForce(force, transform.position, radius);
+
+                if(rb.GetComponent<TargetScript>() != null)
+                rb.GetComponent<TargetScript>().DoHit(grenadeDmg);
             }
         }
         // Add force 

@@ -1,19 +1,17 @@
 using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class WeaponFire : MonoBehaviour
 {
     public static WeaponFire instance;
 
+    private int weaponDmg = 50;
+
     public float cooldown = 0.3f;
 
     private bool isFiring = false;
 
-    public int killCount = 0;
-
-    public TextMeshProUGUI killsText;
+    public GameObject particles;
     // Start is called bfore the first frame update
     void Start()
     {
@@ -24,12 +22,10 @@ public class WeaponFire : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        killsText.text = killCount.ToString(); 
-
         if (Input.GetButtonDown("Fire1") && !isFiring)
         {
-            StartCoroutine(FireWeapon());
+            if(GameManager.instance.gameOver != true)
+                StartCoroutine(FireWeapon());
         }
     }
 
@@ -37,17 +33,21 @@ public class WeaponFire : MonoBehaviour
     {
         isFiring = true;
 
+        this.GetComponentInChildren<ParticleSystem>().Play();
+
         RaycastHit hit;
+
         if (this.GetComponentInParent<MouseLook>().GetShootHitPos(out hit))
         {
             if (hit.collider.GetComponent<TargetScript>() != null)
             {
-                hit.collider.GetComponent<TargetScript>().DoHit();
-                killCount++;
+                GameObject hitParticles = Instantiate(particles, hit.point, Quaternion.LookRotation(hit.normal)); //Instantiate particle prefab to play at hit point.
+                hit.collider.GetComponent<TargetScript>().DoHit(weaponDmg);
+
+                yield return new WaitForSeconds(hitParticles.GetComponent<ParticleSystem>().main.startLifetime.constant); //after particle lifetime, destroy particles.
+                Destroy(hitParticles);
             }
         }
-
-        this.GetComponentInChildren<ParticleSystem>().Play();
 
         yield return new WaitForSeconds(cooldown);
 
