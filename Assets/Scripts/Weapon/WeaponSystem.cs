@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class WeaponSystem : MonoBehaviour
 {
+
     public static WeaponSystem instance;
 
     public GameObject showReload, showNoAmmo, showWeaponNoHave;
@@ -29,7 +30,9 @@ public class WeaponSystem : MonoBehaviour
 
         weapon = WeaponType.Pistol;
 
-        StartCoroutine(WeaponStatStart());
+        this.GetComponent<ReadFile>().GetData(WeaponStatStart);
+
+        
     }
 
     private void Update()
@@ -38,7 +41,7 @@ public class WeaponSystem : MonoBehaviour
         WeaponStats();
         AmmoCheck();
         Reload();
-        
+
     }
 
     public void SwitchWeapon()
@@ -82,35 +85,35 @@ public class WeaponSystem : MonoBehaviour
         {
             case WeaponType.Pistol:
 
-                maxAmmo = 12;
-                weaponDmg = 25;
-                fireCooldown = 0.2f;
-                reloadTime = 1.5f;
-                weaponIconIndex = 1;
+                maxAmmo = Game.GetGameData().GetWeaponByRefId("101").GetMaxAmmo();
+                weaponDmg = Game.GetGameData().GetWeaponByRefId("101").GetWeaponDmg();
+                fireCooldown = Game.GetGameData().GetWeaponByRefId("101").GetFireCoolDown();
+                reloadTime = Game.GetGameData().GetWeaponByRefId("101").GetReloadTime();
+                weaponIconIndex = Game.GetGameData().GetWeaponByRefId("101").GetWeaponIconIndex();
 
-            break;
+                break;
 
             case WeaponType.Rifle:
 
-                maxAmmo = 30;
-                weaponDmg = 35;
-                fireCooldown = 0.1f;
-                reloadTime = 3f;
-                weaponIconIndex = 2;
+                maxAmmo = Game.GetGameData().GetWeaponByRefId("102").GetMaxAmmo();
+                weaponDmg = Game.GetGameData().GetWeaponByRefId("102").GetWeaponDmg();
+                fireCooldown = Game.GetGameData().GetWeaponByRefId("102").GetFireCoolDown();
+                reloadTime = Game.GetGameData().GetWeaponByRefId("102").GetReloadTime();
+                weaponIconIndex = Game.GetGameData().GetWeaponByRefId("102").GetWeaponIconIndex();
 
                 break;
 
             case WeaponType.Grenade:
 
-                maxAmmo = 1;
-                weaponDmg = 100;
-                fireCooldown = 2f;
-                reloadTime = 6f;
-                weaponIconIndex = 3;
+                maxAmmo = Game.GetGameData().GetWeaponByRefId("103").GetMaxAmmo();
+                weaponDmg = Game.GetGameData().GetWeaponByRefId("103").GetWeaponDmg();
+                fireCooldown = Game.GetGameData().GetWeaponByRefId("103").GetFireCoolDown();
+                reloadTime = Game.GetGameData().GetWeaponByRefId("103").GetReloadTime();
+                weaponIconIndex = Game.GetGameData().GetWeaponByRefId("103").GetWeaponIconIndex();
 
                 break;
         }
-            
+
     }
     public void Reload()
     {
@@ -149,13 +152,12 @@ public class WeaponSystem : MonoBehaviour
         }
     }
 
-    private IEnumerator WeaponStatStart() //BRUTE FORCE MADAFKER will be fixed with loading screen
+    private void WeaponStatStart() //BRUTE FORCE MADAFKER will be fixed with loading screen
     {
-        yield return new WaitForSeconds(0.00000001f);
 
-        currentAmmoDump.Add(WeaponType.Pistol, 12);
-        currentAmmoDump.Add(WeaponType.Rifle, 30);
-        currentAmmoDump.Add(WeaponType.Grenade, 1);
+        currentAmmoDump.Add(WeaponType.Pistol, Game.GetGameData().GetWeaponByRefId("101").GetMaxAmmo());
+        currentAmmoDump.Add(WeaponType.Rifle, Game.GetGameData().GetWeaponByRefId("102").GetMaxAmmo());
+        currentAmmoDump.Add(WeaponType.Grenade, Game.GetGameData().GetWeaponByRefId("103").GetMaxAmmo());
 
         currentAmmoDump[weapon] = maxAmmo;
     }
