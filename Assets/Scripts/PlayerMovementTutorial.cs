@@ -144,9 +144,6 @@ public class PlayerMovementTutorial : MonoBehaviour
         // in air
         else if(!grounded)
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
-
-        
-
     }
 
     private void Sprint()

@@ -21,6 +21,8 @@ public class WeaponSystem : MonoBehaviour
     [HideInInspector] public bool isReloading = false;
     [HideInInspector] public bool weaponIsAvailable = false;
 
+    [HideInInspector] public Dictionary<WeaponType, int> currentAmmoDump = new Dictionary<WeaponType, int>();
+
     private void Start()
     {
         instance = this;
@@ -70,6 +72,10 @@ public class WeaponSystem : MonoBehaviour
         }
     }
 
+    public void UseAmmo()
+    {
+        currentAmmoDump[weapon]--;
+    }
     public void WeaponStats()
     {
         switch (weapon)
@@ -108,7 +114,7 @@ public class WeaponSystem : MonoBehaviour
     }
     public void Reload()
     {
-        if (Input.GetKeyDown(KeyCode.R) && !isReloading && currentAmmo != maxAmmo)
+        if (Input.GetKeyDown(KeyCode.R) && !isReloading && currentAmmoDump[weapon] != maxAmmo)
         {
             StartCoroutine(ReloadCoRoutine());
         }
@@ -122,7 +128,7 @@ public class WeaponSystem : MonoBehaviour
 
         yield return new WaitForSeconds(reloadTime);
 
-        currentAmmo = maxAmmo;
+        currentAmmoDump[weapon] = maxAmmo;
 
         showReload.SetActive(false);
 
@@ -131,7 +137,7 @@ public class WeaponSystem : MonoBehaviour
 
     public void AmmoCheck()
     {
-        if (currentAmmo <= 0 && !isReloading)
+        if (currentAmmoDump[weapon] <= 0 && !isReloading)
         {
             noAmmo = true;
             showNoAmmo.SetActive(true);
@@ -143,10 +149,15 @@ public class WeaponSystem : MonoBehaviour
         }
     }
 
-    private IEnumerator WeaponStatStart() //BRUTE FORCE MADAFKER
+    private IEnumerator WeaponStatStart() //BRUTE FORCE MADAFKER will be fixed with loading screen
     {
-        yield return new WaitForSeconds(0.0001f);
-        currentAmmo = maxAmmo;
+        yield return new WaitForSeconds(0.00000001f);
+
+        currentAmmoDump.Add(WeaponType.Pistol, 12);
+        currentAmmoDump.Add(WeaponType.Rifle, 30);
+        currentAmmoDump.Add(WeaponType.Grenade, 1);
+
+        currentAmmoDump[weapon] = maxAmmo;
     }
 
     private IEnumerator WeaponNotAvailable()

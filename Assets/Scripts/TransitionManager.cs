@@ -23,6 +23,16 @@ public class TransitionManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void Pause()
+    {
+        Time.timeScale = 0;
+    }
+
+    public void UnPause()
+    {
+        Time.timeScale = 1;
+    }
+
     public void QuitGame()
     {
         Application.Quit();

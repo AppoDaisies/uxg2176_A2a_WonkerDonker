@@ -45,7 +45,9 @@ public class WeaponFire : MonoBehaviour
         {
             isFiring = true;
 
-            WeaponSystem.instance.currentAmmo -= 1;
+            WeaponSystem.instance.UseAmmo();
+
+            //WeaponSystem.instance.currentAmmo -= 1;
 
             this.GetComponentInChildren<ParticleSystem>().Play();
 
@@ -71,7 +73,7 @@ public class WeaponFire : MonoBehaviour
         {
             isFiring = true;
 
-            WeaponSystem.instance.currentAmmo -= 1;
+            WeaponSystem.instance.UseAmmo();
 
             //throw Grenade;
 

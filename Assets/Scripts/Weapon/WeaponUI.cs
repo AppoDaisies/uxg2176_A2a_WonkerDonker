@@ -16,7 +16,7 @@ public class WeaponUI : MonoBehaviour
 
     private void Update()
     {
-        ammoUI.text = WeaponSystem.instance.currentAmmo.ToString() + " / " + WeaponSystem.instance.maxAmmo;
+        ammoUI.text = WeaponSystem.instance.currentAmmoDump[WeaponSystem.instance.weapon].ToString() + " / " + WeaponSystem.instance.maxAmmo;
         weaponName.text = WeaponSystem.instance.weapon.ToString();
 
         WeaponIcon();

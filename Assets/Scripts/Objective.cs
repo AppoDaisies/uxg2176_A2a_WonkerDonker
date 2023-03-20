@@ -47,15 +47,13 @@ public class Objective : MonoBehaviour
         canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, 1, Time.fixedDeltaTime);
 
         finalscore.text = "Score : " + "\n" + KillCount.instance.killCount + " / " + KillCount.instance.maxKillCount;
-
-        Time.timeScale = Mathf.Lerp(Time.timeScale, 0, Time.fixedDeltaTime * 10); //slowdown time to lerp in endscreen.
     }
 
     public void WinScreen()
     {
         winScreen.SetActive(true);
 
-        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, 255, Time.fixedDeltaTime * 10);
+        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, 255, Time.fixedDeltaTime);
 
         Time.timeScale = Mathf.Lerp(Time.timeScale, 0, Time.fixedDeltaTime * 10); //slowdown time to lerp in endscreen.
     }
