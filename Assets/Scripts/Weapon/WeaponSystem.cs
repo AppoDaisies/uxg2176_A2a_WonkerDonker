@@ -93,7 +93,7 @@ public class WeaponSystem : MonoBehaviour
             case WeaponType.Rifle:
 
                 maxAmmo = 30;
-                weaponDmg = 50;
+                weaponDmg = 35;
                 fireCooldown = 0.1f;
                 reloadTime = 3f;
                 weaponIconIndex = 2;

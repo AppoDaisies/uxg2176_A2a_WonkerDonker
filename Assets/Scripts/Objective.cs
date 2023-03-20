@@ -24,7 +24,8 @@ public class Objective : MonoBehaviour
     }
     private void Update()
     {
-        m_timeToComplete -= Time.deltaTime;
+        if(!GameManager.instance.gameOver)
+            m_timeToComplete -= Time.deltaTime;
 
         gameTimer.text = m_timeToComplete.ToString();
 
@@ -53,8 +54,6 @@ public class Objective : MonoBehaviour
     {
         winScreen.SetActive(true);
 
-        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, 255, Time.fixedDeltaTime);
-
-        Time.timeScale = Mathf.Lerp(Time.timeScale, 0, Time.fixedDeltaTime * 10); //slowdown time to lerp in endscreen.
+        canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, 1, Time.fixedDeltaTime);
     }
 }
