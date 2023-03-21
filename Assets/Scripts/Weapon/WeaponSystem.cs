@@ -24,15 +24,23 @@ public class WeaponSystem : MonoBehaviour
 
     [HideInInspector] public Dictionary<WeaponType, int> currentAmmoDump = new Dictionary<WeaponType, int>();
 
-    private void Start()
+    private void Awake()
     {
-        instance = this;
+        if(instance != null)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
 
-        weapon = WeaponType.Pistol;
+        DontDestroyOnLoad(this);
 
         this.GetComponent<ReadFile>().GetData(WeaponStatStart);
 
-        
+        weapon = WeaponType.Pistol;
+
     }
 
     private void Update()
@@ -41,7 +49,6 @@ public class WeaponSystem : MonoBehaviour
         WeaponStats();
         AmmoCheck();
         Reload();
-
     }
 
     public void SwitchWeapon()
@@ -154,7 +161,6 @@ public class WeaponSystem : MonoBehaviour
 
     private void WeaponStatStart() //BRUTE FORCE MADAFKER will be fixed with loading screen
     {
-
         currentAmmoDump.Add(WeaponType.Pistol, Game.GetGameData().GetWeaponByRefId("101").GetMaxAmmo());
         currentAmmoDump.Add(WeaponType.Rifle, Game.GetGameData().GetWeaponByRefId("102").GetMaxAmmo());
         currentAmmoDump.Add(WeaponType.Grenade, Game.GetGameData().GetWeaponByRefId("103").GetMaxAmmo());
