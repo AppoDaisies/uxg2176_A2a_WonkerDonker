@@ -20,6 +20,7 @@ public class TransitionManager : MonoBehaviour
 
     public void LoadGame()
     {
+        ResetAmmo();
         SceneManager.LoadScene(1);
     }
 
@@ -40,6 +41,6 @@ public class TransitionManager : MonoBehaviour
 
     public void ResetAmmo()
     {
-        WeaponSystem.instance.currentAmmoDump[WeaponSystem.instance.weapon] = WeaponSystem.instance.maxAmmo;
+        WeaponSystem.instance.currentAmmoDump[WeaponSystem.instance.weaponID] = WeaponSystem.instance.maxAmmo;
     }
 }

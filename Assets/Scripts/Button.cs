@@ -34,6 +34,7 @@ public class Button : MonoBehaviour
             {
                 Enemies[i].transform.position = originalPos[i];
                 Enemies[i].SetActive(true);
+                Enemies[i].GetComponent<TargetScript>().currentHP = Enemies[i].GetComponent<TargetScript>().maxHP;
             }
 
             KillCount.instance.killCount = 0;

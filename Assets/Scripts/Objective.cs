@@ -27,7 +27,7 @@ public class Objective : MonoBehaviour
         if(!GameManager.instance.gameOver)
             m_timeToComplete -= Time.deltaTime;
 
-        gameTimer.text = m_timeToComplete.ToString();
+        gameTimer.text = m_timeToComplete.ToString("F2");
 
         if (m_timeToComplete <= 0) //if lose
         {

@@ -1,19 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class TargetScript : MonoBehaviour
 {
-    private int maxHP;
-    private int currentHP;
+    [HideInInspector] public int maxHP;
+    [HideInInspector] public int currentHP;
 
+    public TextMeshProUGUI hpText;
 
     private void Start()
     {
         currentHP = 100;
         maxHP = currentHP;
     }
-
+    private void Update()
+    {
+        hpText.text = currentHP.ToString();
+    }
 
     public void DoHit(int dmg)
     {

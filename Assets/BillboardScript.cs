@@ -9,12 +9,14 @@ public class BillboardScript : MonoBehaviour
     Quaternion originalRotation;
     private void Start()
     {
+        camTransform = FindObjectOfType<Camera>().transform;
         originalRotation = transform.rotation;
+
     }
 
     private void Update()
     {
-        //transform.LookAt(camTransform, Vector3.up);
-        transform.rotation = camTransform.rotation * originalRotation;
+        transform.LookAt(camTransform, Vector3.up);
+        //transform.rotation = camTransform.rotation * originalRotation;
     }
 }

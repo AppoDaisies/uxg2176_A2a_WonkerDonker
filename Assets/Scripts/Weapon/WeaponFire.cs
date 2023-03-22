@@ -20,7 +20,7 @@ public class WeaponFire : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (WeaponSystem.instance.weapon == WeaponSystem.WeaponType.Pistol) //for pistols
+        if (WeaponSystem.instance.weaponID == "101") //for pistols
         {
             if (Input.GetButtonDown("Fire1") && !isFiring && !WeaponSystem.instance.noAmmo && !WeaponSystem.instance.isReloading)
             {
@@ -41,7 +41,7 @@ public class WeaponFire : MonoBehaviour
 
     private IEnumerator FireWeapon()
     {
-        if(WeaponSystem.instance.weapon != WeaponSystem.WeaponType.Grenade)
+        if (WeaponSystem.instance.weaponID != "103") //if not grenade
         {
             isFiring = true;
 
@@ -62,6 +62,10 @@ public class WeaponFire : MonoBehaviour
                     hit.collider.GetComponent<TargetScript>().DoHit(WeaponSystem.instance.weaponDmg);
 
                     StartCoroutine(DestroyParticles(hitParticles));
+                }
+                else if(hit.collider.GetComponent<ShootButton>() != null)
+                {
+                    TransitionManager.instance.LoadGame();
                 }
             }
 

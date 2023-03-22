@@ -9,20 +9,21 @@ public class WeaponSystem : MonoBehaviour
 
     public GameObject showReload, showNoAmmo, showWeaponNoHave;
 
-    public WeaponType weapon;
+    
 
     [HideInInspector] public int weaponDmg;
     [HideInInspector] public int maxAmmo;
     [HideInInspector] public int currentAmmo;
+    [HideInInspector] public int weaponIconIndex;
     [HideInInspector] public float fireCooldown;
     [HideInInspector] public float reloadTime;
-    [HideInInspector] public int weaponIconIndex;
+    [HideInInspector] public string weaponID;
 
     [HideInInspector] public bool noAmmo;
     [HideInInspector] public bool isReloading = false;
     [HideInInspector] public bool weaponIsAvailable = false;
 
-    [HideInInspector] public Dictionary<WeaponType, int> currentAmmoDump = new Dictionary<WeaponType, int>();
+    [HideInInspector] public Dictionary<string, int> currentAmmoDump = new Dictionary<string, int>();
 
     private void Awake()
     {
@@ -39,14 +40,25 @@ public class WeaponSystem : MonoBehaviour
 
         this.GetComponent<ReadFile>().GetData(WeaponStatStart);
 
-        weapon = WeaponType.Pistol;
+        weaponID = "101";
 
+    }
+
+    private void Start()
+    {
+        Invoke("SetAmmoOnStart", 0.001f);
+
+        if (showReload == null || showWeaponNoHave == null)
+        {
+            showReload = GameObject.Find("ReloadingText");
+            showWeaponNoHave = GameObject.Find("WeaponNotAvailableText");
+        }
     }
 
     private void Update()
     {
-        SwitchWeapon();
         WeaponStats();
+        SwitchWeapon();
         AmmoCheck();
         Reload();
     }
@@ -55,18 +67,18 @@ public class WeaponSystem : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            weapon = WeaponType.Pistol;
+            weaponID = "101";
 
-            Debug.Log(weapon);
+            Debug.Log(weaponID);
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             if (weaponIsAvailable)
             {
-                weapon = WeaponType.Rifle;
+                weaponID = "102";
 
-                Debug.Log(weapon);
+                Debug.Log(weaponID);
             }
             else
             {
@@ -76,55 +88,31 @@ public class WeaponSystem : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            weapon = WeaponType.Grenade;
+            weaponID = "103";
 
-            Debug.Log(weapon);
+            Debug.Log(weaponID);
         }
     }
 
     public void UseAmmo()
     {
-        currentAmmoDump[weapon]--;
+        currentAmmoDump[weaponID]--;
     }
     public void WeaponStats()
     {
-        switch (weapon)
-        {
-            case WeaponType.Pistol:
+        Weapon currentWeapon = Game.GetGameData().GetWeaponByRefId(weaponID); //Get Weapon Data according to weapon ID
 
-                maxAmmo = Game.GetGameData().GetWeaponByRefId("101").GetMaxAmmo();
-                weaponDmg = Game.GetGameData().GetWeaponByRefId("101").GetWeaponDmg();
-                fireCooldown = Game.GetGameData().GetWeaponByRefId("101").GetFireCoolDown();
-                reloadTime = Game.GetGameData().GetWeaponByRefId("101").GetReloadTime();
-                weaponIconIndex = Game.GetGameData().GetWeaponByRefId("101").GetWeaponIconIndex();
 
-                break;
-
-            case WeaponType.Rifle:
-
-                maxAmmo = Game.GetGameData().GetWeaponByRefId("102").GetMaxAmmo();
-                weaponDmg = Game.GetGameData().GetWeaponByRefId("102").GetWeaponDmg();
-                fireCooldown = Game.GetGameData().GetWeaponByRefId("102").GetFireCoolDown();
-                reloadTime = Game.GetGameData().GetWeaponByRefId("102").GetReloadTime();
-                weaponIconIndex = Game.GetGameData().GetWeaponByRefId("102").GetWeaponIconIndex();
-
-                break;
-
-            case WeaponType.Grenade:
-
-                maxAmmo = Game.GetGameData().GetWeaponByRefId("103").GetMaxAmmo();
-                weaponDmg = Game.GetGameData().GetWeaponByRefId("103").GetWeaponDmg();
-                fireCooldown = Game.GetGameData().GetWeaponByRefId("103").GetFireCoolDown();
-                reloadTime = Game.GetGameData().GetWeaponByRefId("103").GetReloadTime();
-                weaponIconIndex = Game.GetGameData().GetWeaponByRefId("103").GetWeaponIconIndex();
-
-                break;
-        }
-
+        //Setting Data accordingly
+        maxAmmo = currentWeapon.GetMaxAmmo(); 
+        weaponDmg = currentWeapon.GetWeaponDmg();
+        fireCooldown = currentWeapon.GetFireCoolDown();
+        reloadTime = currentWeapon.GetReloadTime();
+        weaponIconIndex = currentWeapon.GetWeaponIconIndex();
     }
     public void Reload()
     {
-        if (Input.GetKeyDown(KeyCode.R) && !isReloading && currentAmmoDump[weapon] != maxAmmo)
+        if (Input.GetKeyDown(KeyCode.R) && !isReloading && currentAmmoDump[weaponID] != maxAmmo)
         {
             StartCoroutine(ReloadCoRoutine());
         }
@@ -138,7 +126,7 @@ public class WeaponSystem : MonoBehaviour
 
         yield return new WaitForSeconds(reloadTime);
 
-        currentAmmoDump[weapon] = maxAmmo;
+        currentAmmoDump[weaponID] = maxAmmo;
 
         showReload.SetActive(false);
 
@@ -147,25 +135,42 @@ public class WeaponSystem : MonoBehaviour
 
     public void AmmoCheck()
     {
-        if (currentAmmoDump[weapon] <= 0 && !isReloading)
+        if (currentAmmoDump[weaponID] <= 0 && !isReloading)
         {
-            noAmmo = true;
-            showNoAmmo.SetActive(true);
+            if (showNoAmmo != null)
+            {
+                noAmmo = true;
+                showNoAmmo.SetActive(true);
+            }
         }
         else
         {
-            noAmmo = false;
-            showNoAmmo.SetActive(false);
+            if (showNoAmmo != null)
+            {
+                noAmmo = false;
+                showNoAmmo.SetActive(false);
+            }
         }
+
+        if(showNoAmmo == null)
+        {
+            showNoAmmo =  GameObject.Find("NoAmmoText");
+        }
+
     }
 
     private void WeaponStatStart() //BRUTE FORCE MADAFKER will be fixed with loading screen
     {
-        currentAmmoDump.Add(WeaponType.Pistol, Game.GetGameData().GetWeaponByRefId("101").GetMaxAmmo());
-        currentAmmoDump.Add(WeaponType.Rifle, Game.GetGameData().GetWeaponByRefId("102").GetMaxAmmo());
-        currentAmmoDump.Add(WeaponType.Grenade, Game.GetGameData().GetWeaponByRefId("103").GetMaxAmmo());
+        foreach (Weapon weapon in Game.GetGameData().GetWeaponList())
+        {
+            currentAmmoDump.Add(weapon.GetId(), weapon.GetMaxAmmo());
+        }
 
-        currentAmmoDump[weapon] = maxAmmo;
+    }
+
+    private void SetAmmoOnStart()
+    {
+        currentAmmoDump[weaponID] = maxAmmo;
     }
 
     private IEnumerator WeaponNotAvailable()
@@ -176,14 +181,4 @@ public class WeaponSystem : MonoBehaviour
 
         showWeaponNoHave.SetActive(false);
     }
-
-
-    public enum WeaponType
-    {
-        Pistol,
-        Rifle,
-        Grenade
-    }
-
-
 }
