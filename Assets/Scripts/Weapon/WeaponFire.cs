@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WeaponFire : MonoBehaviour
 {
@@ -63,10 +64,23 @@ public class WeaponFire : MonoBehaviour
 
                     StartCoroutine(DestroyParticles(hitParticles));
                 }
-                else if(hit.collider.GetComponent<ShootButton>() != null)
+                else if (hit.collider.GetComponent<ShootButton>() != null)
                 {
-                    TransitionManager.instance.LoadGame();
+                    if (SceneManager.GetActiveScene().buildIndex == 0)
+                        TransitionManager.instance.LoadGame();
+                    else
+                        Objective.instance.gameStart = true;
                 }
+                
+                if (SceneManager.GetActiveScene().buildIndex == 1)
+                {
+                    if (hit.collider.gameObject.transform.parent.name == "Alwyn" && hit.collider.isTrigger == false)
+                    {
+                        Dialogue.instance.ShootLineCoRoutine();
+                    }
+                }
+                    
+                
             }
 
             yield return new WaitForSeconds(WeaponSystem.instance.fireCooldown);

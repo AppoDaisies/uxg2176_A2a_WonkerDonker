@@ -14,6 +14,10 @@ public class WeaponUI : MonoBehaviour
 
     public TextMeshProUGUI ammoUI,weaponName;
 
+    private void Start()
+    {
+        Invoke("DeactivateUI", 0.001f);
+    }
     private void Update()
     {
         ammoUI.text = WeaponSystem.instance.currentAmmoDump[WeaponSystem.instance.weaponID].ToString() + " / " + WeaponSystem.instance.maxAmmo;
@@ -37,5 +41,13 @@ public class WeaponUI : MonoBehaviour
                 weaponIcon.overrideSprite = grenadeIcon;
                 break;
         }
+    }
+
+    public void DeactivateUI()
+    {
+        WeaponSystem system = WeaponSystem.instance;
+        system.showReload.SetActive(false);
+        system.showNoAmmo.SetActive(false);
+        system.showWeaponNoHave.SetActive(false);
     }
 }

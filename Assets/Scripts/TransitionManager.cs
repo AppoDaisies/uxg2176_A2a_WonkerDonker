@@ -41,6 +41,9 @@ public class TransitionManager : MonoBehaviour
 
     public void ResetAmmo()
     {
-        WeaponSystem.instance.currentAmmoDump[WeaponSystem.instance.weaponID] = WeaponSystem.instance.maxAmmo;
+        WeaponSystem weapon = WeaponSystem.instance;
+        weapon.currentAmmoDump[weapon.weaponID] = weapon.maxAmmo;
+        weapon.weaponIsAvailable = false;
+        
     }
 }

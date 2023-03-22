@@ -48,11 +48,6 @@ public class WeaponSystem : MonoBehaviour
     {
         Invoke("SetAmmoOnStart", 0.001f);
 
-        if (showReload == null || showWeaponNoHave == null)
-        {
-            showReload = GameObject.Find("ReloadingText");
-            showWeaponNoHave = GameObject.Find("WeaponNotAvailableText");
-        }
     }
 
     private void Update()
@@ -61,6 +56,17 @@ public class WeaponSystem : MonoBehaviour
         SwitchWeapon();
         AmmoCheck();
         Reload();
+
+        if (showNoAmmo == null)
+        {
+            showNoAmmo = GameObject.Find("NoAmmoText");
+        }
+
+        if (showReload == null || showWeaponNoHave == null)
+        {
+            showReload = GameObject.Find("ReloadingText");
+            showWeaponNoHave = GameObject.Find("WeaponNotAvailableText");
+        }
     }
 
     public void SwitchWeapon()
@@ -152,10 +158,7 @@ public class WeaponSystem : MonoBehaviour
             }
         }
 
-        if(showNoAmmo == null)
-        {
-            showNoAmmo =  GameObject.Find("NoAmmoText");
-        }
+       
 
     }
 

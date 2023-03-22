@@ -14,6 +14,8 @@ public class Objective : MonoBehaviour
     public GameObject endScreen;
     public GameObject winScreen;
 
+    public bool gameStart = false;
+
     public TextMeshProUGUI gameTimer, finalscore;
 
 
@@ -24,7 +26,7 @@ public class Objective : MonoBehaviour
     }
     private void Update()
     {
-        if(!GameManager.instance.gameOver)
+        if(!GameManager.instance.gameOver && gameStart == true)
             m_timeToComplete -= Time.deltaTime;
 
         gameTimer.text = m_timeToComplete.ToString("F2");
