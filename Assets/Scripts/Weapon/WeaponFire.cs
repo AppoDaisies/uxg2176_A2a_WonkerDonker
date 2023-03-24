@@ -51,6 +51,7 @@ public class WeaponFire : MonoBehaviour
             //WeaponSystem.instance.currentAmmo -= 1;
 
             this.GetComponentInChildren<ParticleSystem>().Play();
+            gameObject.GetComponent<AudioSource>().Play();
 
             RaycastHit hit;
 
