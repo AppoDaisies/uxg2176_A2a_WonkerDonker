@@ -27,6 +27,8 @@ public class PlayerMovementTutorial : MonoBehaviour
 
     public Slider staminaBar;
 
+    
+
     bool readyToJump;
     private int jumpsRemaining = 2;
 
@@ -67,6 +69,8 @@ public class PlayerMovementTutorial : MonoBehaviour
 
         maxStamina = stamina;
         staminaBar.maxValue = maxStamina;
+
+        WeaponFire.instance.readyToThrow = true;
     }
 
     private void Update()
@@ -96,7 +100,6 @@ public class PlayerMovementTutorial : MonoBehaviour
             Sprint();
             Teleport();
         }
-
         
 
     }

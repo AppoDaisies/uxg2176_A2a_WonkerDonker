@@ -600,6 +600,10 @@ PrefabInstance:
       value: 2000
       objectReference: {fileID: 0}
     - target: {fileID: 3935032194777757188, guid: 883d0afafc05d784ea5721b6885c465a, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 1727739082}
+    - target: {fileID: 3935032194777757188, guid: 883d0afafc05d784ea5721b6885c465a, type: 3}
       propertyPath: killsText
       value: 
       objectReference: {fileID: 0}
@@ -607,6 +611,18 @@ PrefabInstance:
       propertyPath: particles
       value: 
       objectReference: {fileID: 8317941770800637384, guid: 6b20e2fb8506ed745ac500b7e8bd4e68, type: 3}
+    - target: {fileID: 3935032194777757188, guid: 883d0afafc05d784ea5721b6885c465a, type: 3}
+      propertyPath: throwForce
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3935032194777757188, guid: 883d0afafc05d784ea5721b6885c465a, type: 3}
+      propertyPath: attackPoint
+      value: 
+      objectReference: {fileID: 1727739082}
+    - target: {fileID: 3935032194777757188, guid: 883d0afafc05d784ea5721b6885c465a, type: 3}
+      propertyPath: grenadeThrow
+      value: 
+      objectReference: {fileID: 3726780333547410684, guid: 9df4adc00fd1da1468224869832a76d4, type: 3}
     - target: {fileID: 3935032194777757188, guid: 883d0afafc05d784ea5721b6885c465a, type: 3}
       propertyPath: killCounterText
       value: 
@@ -1155,6 +1171,7 @@ MonoBehaviour:
   showReload: {fileID: 2093025425}
   showNoAmmo: {fileID: 1096599393}
   showWeaponNoHave: {fileID: 1537684052}
+  weaponUI: {fileID: 5052880}
   weaponDmg: 0
   maxAmmo: 0
   currentAmmo: 0
@@ -1193,6 +1210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   serverData:
     RefWeaponData: []
+  jsonFile: {fileID: 4900000, guid: d2f989840e7cd04488a5f931dc6fed77, type: 3}
 --- !u!1 &573595235
 GameObject:
   m_ObjectHideFlags: 0
@@ -1983,13 +2001,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 905173262}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1238980141}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 92}
@@ -3787,13 +3805,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1752291512}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1238980141}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -9, y: 170}

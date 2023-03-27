@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,6 @@ public class WeaponSystem : MonoBehaviour
     public static WeaponSystem instance;
 
     public GameObject showReload, showNoAmmo, showWeaponNoHave;
-
-    
 
     [HideInInspector] public int weaponDmg;
     [HideInInspector] public int maxAmmo;
@@ -82,8 +81,7 @@ public class WeaponSystem : MonoBehaviour
         {
             if (weaponIsAvailable)
             {
-                weaponID = "102";
-
+                weaponID = ("102");
                 Debug.Log(weaponID);
             }
             else
@@ -107,10 +105,10 @@ public class WeaponSystem : MonoBehaviour
     public void WeaponStats()
     {
         Weapon currentWeapon = Game.GetGameData().GetWeaponByRefId(weaponID); //Get Weapon Data according to weapon ID
-
+        //Debug.Log("CurrentWeapon" + currentWeapon.GetId());
 
         //Setting Data accordingly
-        maxAmmo = currentWeapon.GetMaxAmmo(); 
+        maxAmmo = currentWeapon.GetMaxAmmo();
         weaponDmg = currentWeapon.GetWeaponDmg();
         fireCooldown = currentWeapon.GetFireCoolDown();
         reloadTime = currentWeapon.GetReloadTime();

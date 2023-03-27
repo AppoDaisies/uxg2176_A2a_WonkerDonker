@@ -11,6 +11,17 @@ public class WeaponFire : MonoBehaviour
     private bool isFiring = false;
 
     public GameObject particles;
+
+    [Header("Grenade References")]
+    public Transform cam;
+    public Transform attackPoint;
+    public GameObject grenadeThrow;
+
+    [Header("Grenade Throwing")]
+    public float throwForce;
+    public float throwUpwardForce;
+
+    public bool readyToThrow;
     // Start is called bfore the first frame update
     void Start()
     {
@@ -37,6 +48,7 @@ public class WeaponFire : MonoBehaviour
                     StartCoroutine(FireWeapon());
             }
         }
+       
         
     }
 
@@ -95,6 +107,18 @@ public class WeaponFire : MonoBehaviour
             WeaponSystem.instance.UseAmmo();
 
             //throw Grenade;
+            readyToThrow = false;
+
+            GameObject projectile = Instantiate(grenadeThrow, attackPoint.position, cam.rotation);
+
+            //Get rigidbody Component
+            Rigidbody projectileRb = projectile.GetComponent<Rigidbody>();
+
+            Vector3 forceToAdd = cam.transform.forward * throwForce + transform.up * throwUpwardForce;
+
+            projectileRb.AddForce(forceToAdd, ForceMode.Impulse);
+
+            //implement Cooldown
 
             yield return new WaitForSeconds(WeaponSystem.instance.fireCooldown);
 

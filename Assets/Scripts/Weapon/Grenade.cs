@@ -19,13 +19,17 @@ public class Grenade : MonoBehaviour
     void Start()
     {
         countdown = delay; //coundown = 3f sec before exploding
-        grenadeDmg = 100;
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(WeaponSystem.instance.weaponID == "103")
+        {
+            grenadeDmg = WeaponSystem.instance.weaponDmg;
+        }
+
         countdown -= Time.deltaTime;
         if(countdown <= 0f && !hasExploded)
         {
